@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -416,14 +415,14 @@
     border-radius: 4px;
     overflow: hidden;
     position: relative;
-    background: #e8e5df;
+    background: var(--near-black);
   }
   .about-photo .photo-frame img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     display: block;
-    filter: grayscale(20%);
+    padding: 2.5rem;
   }
   /* placeholder state — remove when real photo is added */
   .photo-placeholder {
@@ -533,8 +532,8 @@
 <body>
 
 <nav>
-  <a href="#" class="nav-logo">2520</a>
-  <a href="https://calendly.com/grey-garner-pro/30min" class="nav-cta">Book a call</a>
+  <a href="#" class="nav-logo"><img src="https://pub-cc523e0480124a5e8d50ce67108ed9e1.r2.dev/2520%20white.png" alt="2520 Consulting" style="height: 32px; display: block;"></a>
+  <a href="mailto:grey@2520consulting.com" class="nav-cta">Get in touch</a>
 </nav>
 
 <div class="hero">
@@ -662,11 +661,7 @@
     </div>
     <div class="about-photo">
       <div class="photo-frame">
-        <!-- Replace this placeholder div with: <img src="your-photo.jpg" alt="Grey Garner"> -->
-        <div class="photo-placeholder">
-          Your photo here<br>
-          <span style="font-size: 0.72rem; margin-top: 0.5rem; color: #b0aca4;">See notes below on what works</span>
-        </div>
+        <img src="https://pub-cc523e0480124a5e8d50ce67108ed9e1.r2.dev/2520%20white.png" alt="Grey Garner">
       </div>
       <div class="photo-accent"></div>
     </div>
@@ -676,7 +671,7 @@
 <section class="cta-section">
   <h2>Start with a conversation.</h2>
   <p>30 minutes, no pressure, no pitch deck required.</p>
-  <a href="https://calendly.com/grey-garner-pro/30min" class="cta-button">Book an intro call</a>
+  <a href="mailto:grey@2520consulting.com" class="cta-button">Get in touch</a>
 </section>
 
 <footer>
