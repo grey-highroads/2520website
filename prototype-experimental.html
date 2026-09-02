@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2520 Consulting — Experimental Prototype</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  * { margin: 0; }
+
+  :root {
+    --ink: #0a0a0a;
+    --white: #ffffff;
+    --soft: #f5f6f8;
+    --muted: #6f7278;
+    --line: #d9dce1;
+    --blue: #1649ff;
+    --blue-dark: #0d2eb8;
+    --rail: 188px;
+    --sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--sans);
+    color: var(--ink);
+    background: var(--white);
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; }
+
+  .rail {
+    position: fixed;
+    inset: 0 auto 0 0;
+    width: var(--rail);
+    background: var(--ink);
+    color: var(--white);
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 24px 22px;
+  }
+  .rail-mark {
+    font-weight: 800;
+    font-size: 32px;
+    letter-spacing: -0.06em;
+    line-height: 1;
+  }
+  .rail-mark small {
+    display: block;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    font-weight: 400;
+    color: #8a8a8a;
+    margin-top: 8px;
+  }
+  .rail-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    font-family: var(--mono);
+    font-size: 10px;
+    line-height: 1.4;
+  }
+  .rail-nav a {
+    text-decoration: none;
+    color: #8d8d8d;
+    transition: color .15s ease;
+  }
+  .rail-nav a:hover { color: var(--white); }
+  .rail-contact {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: #8d8d8d;
+    line-height: 1.5;
+  }
+  .rail-contact a { color: var(--white); text-decoration: none; }
+
+  main { margin-left: var(--rail); }
+
+  .hero {
+    min-height: 92vh;
+    padding: 56px clamp(32px, 6vw, 96px) 64px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.55fr) minmax(280px, .65fr);
+    gap: 64px;
+    align-items: end;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--ink);
+  }
+  .hero-number {
+    position: absolute;
+    right: -0.04em;
+    top: -0.18em;
+    font-size: clamp(180px, 34vw, 530px);
+    line-height: .8;
+    font-weight: 800;
+    letter-spacing: -0.09em;
+    color: transparent;
+    -webkit-text-stroke: 1px #e1e3e8;
+    pointer-events: none;
+    user-select: none;
+  }
+  .hero-copy { position: relative; z-index: 2; }
+  .hero-kicker {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .08em;
+    color: var(--blue);
+    margin-bottom: 24px;
+  }
+  .hero h1 {
+    font-size: clamp(52px, 7.4vw, 118px);
+    line-height: .92;
+    letter-spacing: -0.065em;
+    font-weight: 700;
+    max-width: 980px;
+  }
+  .hero-side {
+    position: relative;
+    z-index: 2;
+    align-self: end;
+    padding-bottom: 6px;
+  }
+  .hero-side p {
+    font-size: 16px;
+    line-height: 1.55;
+    color: #4d5158;
+    max-width: 420px;
+  }
+  .hero-side a {
+    display: inline-block;
+    margin-top: 24px;
+    font-family: var(--mono);
+    font-size: 11px;
+    text-decoration: none;
+    color: var(--blue);
+    border-bottom: 1px solid var(--blue);
+    padding-bottom: 4px;
+  }
+
+  .section {
+    padding: 96px clamp(32px, 6vw, 96px);
+    border-bottom: 1px solid var(--ink);
+  }
+  .section-head {
+    display: grid;
+    grid-template-columns: 150px minmax(0, 1fr);
+    gap: 40px;
+    margin-bottom: 60px;
+    align-items: start;
+  }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 10px;
+    line-height: 1.5;
+    letter-spacing: .08em;
+    color: var(--blue);
+  }
+  .section-head h2 {
+    font-size: clamp(34px, 4.2vw, 64px);
+    letter-spacing: -0.045em;
+    line-height: 1;
+    max-width: 800px;
+    font-weight: 650;
+  }
+  .section-head p {
+    grid-column: 2;
+    margin-top: -22px;
+    max-width: 650px;
+    color: #5a5e65;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  .offers { padding-bottom: 0; }
+  .offer-list { margin: 0 calc(clamp(32px, 6vw, 96px) * -1); }
+  .offer {
+    display: grid;
+    grid-template-columns: 86px minmax(230px, .8fr) minmax(290px, 1.15fr) minmax(260px, .95fr);
+    gap: 28px;
+    padding: 38px clamp(32px, 6vw, 96px);
+    border-top: 1px solid var(--ink);
+    align-items: start;
+    transition: background .15s ease, color .15s ease;
+  }
+  .offer:hover { background: var(--blue); color: var(--white); }
+  .offer:hover .offer-meta,
+  .offer:hover .offer-copy,
+  .offer:hover .offer-for,
+  .offer:hover .deliverable-label { color: rgba(255,255,255,.78); }
+  .offer:hover .offer-no { color: var(--white); }
+  .offer-no {
+    font-family: var(--mono);
+    color: var(--blue);
+    font-size: 14px;
+    padding-top: 4px;
+  }
+  .offer-title h3 {
+    font-size: clamp(26px, 2.6vw, 42px);
+    line-height: 1;
+    letter-spacing: -0.045em;
+    font-weight: 650;
+    margin-bottom: 12px;
+  }
+  .offer-meta {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    line-height: 1.45;
+  }
+  .offer-copy {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #4d5158;
+  }
+  .offer-for {
+    margin-top: 16px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+  .deliverable {
+    border-left: 1px solid currentColor;
+    padding-left: 20px;
+    font-size: 14px;
+    line-height: 1.55;
+  }
+  .deliverable-label {
+    display: block;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: .08em;
+    color: var(--blue);
+    margin-bottom: 10px;
+  }
+
+  .interrupt {
+    background: var(--blue);
+    color: var(--white);
+    min-height: 62vh;
+    display: flex;
+    align-items: center;
+    padding: 80px clamp(32px, 6vw, 96px);
+    border-bottom: 1px solid var(--ink);
+  }
+  .interrupt p {
+    font-size: clamp(52px, 7.4vw, 112px);
+    line-height: .94;
+    letter-spacing: -0.06em;
+    font-weight: 650;
+    max-width: 1150px;
+  }
+
+  .retainer {
+    background: var(--soft);
+    display: grid;
+    grid-template-columns: 150px minmax(0, 1fr) minmax(260px, .55fr);
+    gap: 40px;
+  }
+  .retainer .copy h2 {
+    font-size: clamp(34px, 4vw, 60px);
+    letter-spacing: -0.045em;
+    line-height: 1;
+    margin-bottom: 24px;
+  }
+  .retainer .copy p {
+    font-size: 16px;
+    line-height: 1.65;
+    color: #555960;
+    max-width: 640px;
+  }
+  .retainer-meta {
+    display: grid;
+    gap: 28px;
+    align-content: start;
+  }
+  .retainer-meta div { border-top: 1px solid var(--ink); padding-top: 12px; }
+  .retainer-meta b {
+    display: block;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: .08em;
+    color: var(--blue);
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  .retainer-meta p { font-size: 13px; line-height: 1.5; color: #555960; }
+
+  .proof-list { border-top: 1px solid var(--ink); }
+  .proof-row {
+    display: grid;
+    grid-template-columns: minmax(210px, .45fr) minmax(0, 1fr);
+    gap: 50px;
+    padding: 42px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .proof-stat {
+    font-size: clamp(58px, 8vw, 126px);
+    letter-spacing: -0.07em;
+    line-height: .85;
+    font-weight: 700;
+  }
+  .proof-context {
+    display: flex;
+    align-items: flex-end;
+    max-width: 620px;
+    font-size: clamp(18px, 2vw, 28px);
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+  }
+  .companies {
+    margin-top: 32px;
+    font-family: var(--mono);
+    font-size: 10px;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+  .companies strong { color: var(--ink); font-weight: 500; }
+
+  .ownership {
+    background: var(--ink);
+    color: var(--white);
+  }
+  .ownership .eyebrow { color: #7f9aff; }
+  .ownership .section-head p { color: #9c9c9c; }
+  .ownership-list { border-top: 1px solid #383838; }
+  .ownership-item {
+    display: grid;
+    grid-template-columns: 110px minmax(250px, .75fr) minmax(0, 1fr);
+    gap: 30px;
+    padding: 44px 0;
+    border-bottom: 1px solid #383838;
+  }
+  .ownership-item .num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: #7f9aff;
+  }
+  .ownership-item h3 {
+    font-size: clamp(30px, 3.2vw, 50px);
+    line-height: 1;
+    letter-spacing: -0.045em;
+    font-weight: 600;
+  }
+  .ownership-item p {
+    max-width: 650px;
+    color: #a7a7a7;
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 150px minmax(0, .8fr) minmax(280px, .55fr);
+    gap: 40px;
+    align-items: start;
+  }
+  .about-copy h2 {
+    font-size: clamp(42px, 5vw, 76px);
+    letter-spacing: -0.055em;
+    line-height: .95;
+    margin-bottom: 28px;
+  }
+  .about-copy p {
+    font-size: 15px;
+    line-height: 1.7;
+    color: #51555c;
+    margin-bottom: 18px;
+    max-width: 640px;
+  }
+  .about-photo {
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: #ddd;
+  }
+  .about-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: grayscale(100%) contrast(1.05);
+  }
+
+  .contact {
+    background: var(--blue);
+    color: var(--white);
+    min-height: 66vh;
+    display: grid;
+    grid-template-columns: 150px minmax(0, 1fr);
+    gap: 40px;
+    align-items: end;
+  }
+  .contact .eyebrow { color: #b9c7ff; align-self: start; }
+  .contact h2 {
+    font-size: clamp(60px, 9vw, 145px);
+    letter-spacing: -0.07em;
+    line-height: .86;
+    max-width: 1100px;
+    margin-bottom: 34px;
+  }
+  .contact p {
+    font-size: 15px;
+    line-height: 1.5;
+    color: #d8dfff;
+    margin-bottom: 20px;
+  }
+  .contact a.cta {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--white);
+    text-decoration: none;
+    border-bottom: 1px solid var(--white);
+    padding-bottom: 5px;
+  }
+
+  footer {
+    margin-left: var(--rail);
+    background: var(--ink);
+    color: #8d8d8d;
+    padding: 20px clamp(32px, 6vw, 96px);
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    font-family: var(--mono);
+    font-size: 9px;
+  }
+  footer a { color: var(--white); text-decoration: none; margin-left: 18px; }
+
+  @media (max-width: 1050px) {
+    :root { --rail: 0px; }
+    .rail {
+      position: relative;
+      width: 100%;
+      height: auto;
+      padding: 18px 22px;
+      flex-direction: row;
+      align-items: center;
+    }
+    .rail-nav, .rail-contact { display: none; }
+    main, footer { margin-left: 0; }
+    .hero { grid-template-columns: 1fr; gap: 44px; min-height: auto; padding-top: 100px; }
+    .hero-side { max-width: 600px; }
+    .offer { grid-template-columns: 60px 1fr 1fr; }
+    .deliverable { grid-column: 2 / -1; }
+    .retainer { grid-template-columns: 120px 1fr; }
+    .retainer-meta { grid-column: 2; grid-template-columns: 1fr 1fr; }
+    .about-grid { grid-template-columns: 120px 1fr; }
+    .about-photo { grid-column: 2; max-width: 440px; }
+  }
+
+  @media (max-width: 700px) {
+    .hero, .section, .interrupt { padding-left: 22px; padding-right: 22px; }
+    .hero { padding-top: 72px; }
+    .hero h1 { font-size: clamp(46px, 15vw, 72px); }
+    .hero-number { font-size: 62vw; top: 20px; }
+    .section-head { grid-template-columns: 1fr; gap: 18px; margin-bottom: 42px; }
+    .section-head p { grid-column: 1; margin-top: 0; }
+    .offer-list { margin: 0 -22px; }
+    .offer {
+      grid-template-columns: 44px 1fr;
+      gap: 18px;
+      padding: 30px 22px;
+    }
+    .offer-copy, .deliverable { grid-column: 2; }
+    .deliverable { padding-left: 0; border-left: 0; border-top: 1px solid currentColor; padding-top: 16px; }
+    .proof-row { grid-template-columns: 1fr; gap: 18px; }
+    .ownership-item { grid-template-columns: 44px 1fr; gap: 16px; }
+    .ownership-item p { grid-column: 2; }
+    .retainer, .about-grid, .contact { grid-template-columns: 1fr; gap: 28px; }
+    .retainer-meta, .about-photo { grid-column: 1; }
+    .retainer-meta { grid-template-columns: 1fr; }
+    footer { padding-left: 22px; padding-right: 22px; flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<aside class="rail">
+  <div class="rail-mark">2520<small>CONSULTING / NASHVILLE</small></div>
+  <nav class="rail-nav">
+    <a href="#engagements">01 / ENGAGEMENTS</a>
+    <a href="#advisory">02 / ADVISORY</a>
+    <a href="#track-record">03 / TRACK RECORD</a>
+    <a href="#why-me">04 / WHY ME</a>
+    <a href="#about">05 / GREY GARNER</a>
+    <a href="#contact">06 / CONTACT</a>
+  </nav>
+  <div class="rail-contact">PRODUCT / POSITIONING / PRICING<br><a href="mailto:grey@2520consulting.com">grey@2520consulting.com</a></div>
+</aside>
+
+<main>
+  <section class="hero">
+    <div class="hero-number" aria-hidden="true">2520</div>
+    <div class="hero-copy">
+      <div class="hero-kicker">PRODUCT / POSITIONING / PRICING</div>
+      <h1>I've built the thing you're building. Now I help founders get it right faster.</h1>
+    </div>
+    <div class="hero-side">
+      <p>Product leader turned advisor. 15 years shipping software, scaling teams, and positioning companies from seed through acquisition at Emma, Kindful, and Gun.io. I run focused sprints for Series A and B companies that have traction but need structure around the roadmap, the story, or the price.</p>
+      <a href="#engagements">SEE THE ENGAGEMENTS ↓</a>
+    </div>
+  </section>
+
+  <section class="section offers" id="engagements">
+    <div class="section-head">
+      <div class="eyebrow">01 / ENGAGEMENTS</div>
+      <h2>Three sprints. Pick the problem.</h2>
+      <p>Each engagement is time-boxed, has a clear deliverable, and ends with something your team can execute against. No open-ended retainers until we've proven the fit.</p>
+    </div>
+
+    <div class="offer-list">
+      <article class="offer">
+        <div class="offer-no">01</div>
+        <div class="offer-title">
+          <h3>Product Strategy &amp; Roadmap</h3>
+          <div class="offer-meta">6–8 WEEKS</div>
+        </div>
+        <div>
+          <div class="offer-copy">You built v1 on instinct and it got you here. Now you need a roadmap your team can rally around and your board can believe in. I audit what you've built, talk to your customers and your team, and deliver a prioritized plan tied to your growth targets.</div>
+          <div class="offer-for">For founders whose roadmap is still in their head or a spreadsheet nobody trusts.</div>
+        </div>
+        <div class="deliverable"><span class="deliverable-label">YOU GET</span>A prioritized product roadmap with strategic rationale, stakeholder alignment, and a 90-day execution plan.</div>
+      </article>
+
+      <article class="offer">
+        <div class="offer-no">02</div>
+        <div class="offer-title">
+          <h3>Positioning &amp; Messaging</h3>
+          <div class="offer-meta">4–6 WEEKS</div>
+        </div>
+        <div>
+          <div class="offer-copy">If your team can't explain what you do in one sentence, your market can't either. I define who you are, who you're not, and how you talk about it. This is the work that makes everything downstream (sales, marketing, hiring) easier.</div>
+          <div class="offer-for">For companies whose pitch changes depending on who's in the room.</div>
+        </div>
+        <div class="deliverable"><span class="deliverable-label">YOU GET</span>A positioning framework, messaging architecture, competitive narrative, and homepage copy direction.</div>
+      </article>
+
+      <article class="offer">
+        <div class="offer-no">03</div>
+        <div class="offer-title">
+          <h3>Pricing &amp; Packaging</h3>
+          <div class="offer-meta">4–6 WEEKS</div>
+        </div>
+        <div>
+          <div class="offer-copy">Your pricing was set two years ago by a founder who guessed. Now it's costing you deals or leaving revenue on the table, and nobody wants to touch it. I run a competitive audit, restructure your packages, and model the impact before you ship it.</div>
+          <div class="offer-for">For teams that know the pricing is wrong but don't know what right looks like.</div>
+        </div>
+        <div class="deliverable"><span class="deliverable-label">YOU GET</span>A pricing and packaging recommendation with competitive analysis, revenue modeling, and a migration plan.</div>
+      </article>
+    </div>
+  </section>
+
+  <section class="interrupt">
+    <p>You do not need another strategy deck. You need decisions your team trusts.</p>
+  </section>
+
+  <section class="section retainer" id="advisory">
+    <div class="eyebrow">02 / WHAT HAPPENS AFTER</div>
+    <div class="copy">
+      <h2>Sprints convert to advisory retainers.</h2>
+      <p>Once we've worked together and the fit is clear, I stay on as a monthly advisor. Async access, a working session each month, and a quarterly review. No long-term commitment. You keep me around because it's useful, not because a contract says so.</p>
+    </div>
+    <div class="retainer-meta">
+      <div><b>INCLUDES</b><p>Async access, monthly working session, quarterly strategic review</p></div>
+      <div><b>BEST FOR</b><p>Founders who want a sounding board that knows their business</p></div>
+    </div>
+  </section>
+
+  <section class="section" id="track-record">
+    <div class="section-head">
+      <div class="eyebrow">03 / TRACK RECORD</div>
+      <h2>Results from the last 15 years.</h2>
+    </div>
+
+    <div class="proof-list">
+      <div class="proof-row"><div class="proof-stat">60,000+</div><div class="proof-context">Users on a two-sided marketplace built from scratch, cutting time-to-revenue by 50%</div></div>
+      <div class="proof-row"><div class="proof-stat">20%</div><div class="proof-context">Net new revenue within 3 months of launching a data product that hit product-market fit on release</div></div>
+      <div class="proof-row"><div class="proof-stat">44%</div><div class="proof-context">Increase in daily active users after building and shipping a mobile analytics product</div></div>
+      <div class="proof-row"><div class="proof-stat">30%</div><div class="proof-context">Year-over-year growth in customer acquisition through multi-channel strategy</div></div>
+    </div>
+    <div class="companies">PREVIOUS WORK AT <strong>EMMA (NOW MARIGOLD)</strong> / <strong>KINDFUL (ACQUIRED BY BLOOMERANG)</strong> / <strong>GUN.IO</strong></div>
+  </section>
+
+  <section class="section ownership" id="why-me">
+    <div class="section-head">
+      <div class="eyebrow">04 / WHY ME</div>
+      <h2>Most advisors have done one of these. I've done all three at the same companies.</h2>
+    </div>
+
+    <div class="ownership-list">
+      <div class="ownership-item"><div class="num">01</div><h3>I've owned the product.</h3><p>Not advised on it. Owned the roadmap, prioritized the backlog, shipped the releases, and explained the tradeoffs to the board. I know what it feels like when the roadmap is wrong because I've been the one accountable for it.</p></div>
+      <div class="ownership-item"><div class="num">02</div><h3>I've owned the story.</h3><p>Positioning, messaging, go-to-market, brand. I've built the narrative that gets a company from "hard to explain" to "easy to buy." That's not a marketing exercise. It's a product decision that most product people don't know how to make.</p></div>
+      <div class="ownership-item"><div class="num">03</div><h3>I've owned the revenue.</h3><p>Customer acquisition, pricing, retention, expansion. I've run the numbers and restructured the model. When I tell you your pricing is leaving money on the table, it's because I've been the one who had to fix it.</p></div>
+    </div>
+  </section>
+
+  <section class="section" id="about">
+    <div class="about-grid">
+      <div class="eyebrow">05 / ABOUT</div>
+      <div class="about-copy">
+        <h2>Grey Garner</h2>
+        <p>I spent the first half of my career as a recording artist and producer. The second half building and advising high-growth tech companies. Those two threads inform how I think about product and positioning: creative instinct backed by operational rigor.</p>
+        <p>I've led product, marketing, and strategy at companies from seed through acquisition. I also run Higher Roads, a Nashville studio specializing in motion design and immersive environments. The advisory work I do through 2520 is a separate practice focused on product-led companies navigating the transition from early traction to scalable growth.</p>
+      </div>
+      <div class="about-photo"><img src="https://pub-cc523e0480124a5e8d50ce67108ed9e1.r2.dev/Grey%2002.jpg" alt="Grey Garner"></div>
+    </div>
+  </section>
+
+  <section class="section contact" id="contact">
+    <div class="eyebrow">06 / CONTACT</div>
+    <div>
+      <h2>Start with a conversation.</h2>
+      <p>30 minutes, no pressure, no pitch deck required.</p>
+      <a class="cta" href="mailto:grey@2520consulting.com">GREY@2520CONSULTING.COM ↗</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div>© 2026 2520 CONSULTING / NASHVILLE, TN</div>
+  <div><a href="mailto:grey@2520consulting.com">EMAIL</a><a href="https://www.linkedin.com/in/gpgarner">LINKEDIN</a></div>
+</footer>
+
+</body>
+</html>
