@@ -30,8 +30,8 @@
 
   const nav = doc.querySelectorAll('.rail-nav a');
   const navLabels = [
-    '01 / HOW I WORK',
-    '02 / RANGE',
+    '01 / START HERE',
+    '02 / WHAT I WORK ON',
     '03 / TRACK RECORD',
     '04 / EXPERIENCE',
     '05 / GREY GARNER',
@@ -42,37 +42,37 @@
   htmlSet('.rail-contact', 'PRODUCT / POSITIONING / PRICING / GROWTH<br><a href="mailto:grey@2520consulting.com">grey@2520consulting.com</a>');
 
   text('.hero-kicker', 'PRODUCT / POSITIONING / PRICING / GROWTH');
-  text('.hero h1', "When the business gets harder to read, I help you figure out what's going on and what to do next.");
-  text('.hero-side p', 'I work with founders and leadership teams on product, positioning, pricing, growth, and the decisions between them. I get up to speed quickly, find what matters, and turn the read into a practical path forward.');
-  text('.hero-side a', 'HOW I WORK ↓');
+  text('.hero h1', "When something important isn't working, I help you figure out why and what to do next.");
+  text('.hero-side p', "Founders usually call when growth has slowed, the roadmap is a mess, the story isn't landing, pricing feels wrong, or the team keeps circling the same decision. I get up to speed fast, find the real problem, and help the team decide what to do next.");
+  text('.hero-side a', 'START HERE ↓');
 
   const offers = doc.querySelector('.offers');
-  text('.section-head .eyebrow', '01 / HOW I WORK', offers);
-  text('.section-head h2', 'Bring me the situation, not a pre-diagnosed project.', offers);
-  text('.section-head p', 'Most strategic problems cross functions. A product issue turns out to be positioning. A growth problem turns out to be pricing. I start by understanding the whole situation, then narrow the work to the decisions with the most impact.', offers);
+  text('.section-head .eyebrow', '01 / START HERE', offers);
+  text('.section-head h2', "Growth slowed. The roadmap is stuck. The story isn't landing. Pricing feels wrong.", offers);
+  text('.section-head p', 'Those problems are often connected. I look across the product, customers, market, numbers, and team before recommending what to change.');
 
   const offerRows = offers.querySelectorAll('.offer');
   const offerCopy = [
     {
-      title: 'Assess the situation',
-      meta: 'START HERE',
-      copy: 'I talk with the people closest to the problem and review the product, numbers, customer signal, market context, and decisions already on the table. The goal is to get past symptoms and understand what is driving them.',
-      forLine: 'Useful when the team knows something is off but there is no agreement on the cause.',
-      outcome: 'A direct read on the situation, the key decisions in front of you, and what deserves attention first.'
+      title: "Figure out what's happening",
+      meta: '1–2 WEEKS',
+      copy: "I talk with the people closest to the problem and review what is already there: product, customer feedback, numbers, market context, plans, and recent decisions. I am looking for the gap between what the team expects and what is happening.",
+      forLine: "Best when everyone agrees there's a problem but not on the cause.",
+      outcome: 'My assessment of what is happening, why I think it is happening, and which decisions need attention first.'
     },
     {
-      title: 'Set the strategy',
-      meta: 'WHEN THE READ IS CLEAR',
-      copy: 'We turn the assessment into a practical path forward. Priorities, tradeoffs, sequencing, owners, and the decisions the team needs to make now. The work goes as deep as the situation requires.',
-      forLine: 'Product, positioning, pricing, growth, and operating questions become focused work here.',
-      outcome: 'A strategy the team understands, with clear priorities and a near-term plan for putting the plan into motion.'
+      title: 'Fix the right problem',
+      meta: 'FOCUSED WORK',
+      copy: 'Once the problem is clear, we make the decisions. What changes. What stays. What comes first. Who owns what. The work might center on product, positioning, pricing, growth, or a combination of them.',
+      forLine: 'The scope follows the problem instead of forcing the problem into a service package.',
+      outcome: 'A specific strategy, clear priorities, and a near-term plan the team knows how to execute.'
     },
     {
-      title: 'Stay close to the work',
-      meta: 'ONGOING ADVISORY',
-      copy: 'After the initial work, I stay involved as the team executes. We look at what is changing, pressure-test new decisions, and adjust the plan as new information shows up.',
-      forLine: 'For founders who want experienced judgment in the room without adding another full-time executive.',
-      outcome: 'Ongoing access, working sessions, and an outside perspective from someone already familiar with the business.'
+      title: 'Keep me in the room',
+      meta: 'ONGOING',
+      copy: 'I stay involved while the team puts the plan to work. We talk through new information, hard calls, changing priorities, and the decisions where an experienced outside perspective helps.',
+      forLine: 'For founders who want another experienced brain involved without adding a full-time executive.',
+      outcome: 'Ongoing access, working sessions, and informed advice from someone who already knows the business.'
     }
   ];
 
@@ -83,23 +83,23 @@
     text('.offer-meta', c.meta, row);
     text('.offer-copy', c.copy, row);
     text('.offer-for', c.forLine, row);
-    htmlSet('.deliverable', '<span class="deliverable-label">OUTCOME</span>' + c.outcome, row);
+    htmlSet('.deliverable', '<span class="deliverable-label">YOU GET</span>' + c.outcome, row);
   });
 
-  text('.interrupt p', 'A roadmap problem might be a positioning problem. A growth problem might be a pricing problem. The diagnosis matters.');
+  text('.interrupt p', "Before you change the roadmap, rewrite the homepage, or cut the price, make sure you're fixing the right thing.");
 
   const range = doc.querySelector('#advisory');
-  text('.eyebrow', '02 / RANGE', range);
-  text('.copy h2', 'The work rarely stays in one lane.', range);
-  text('.copy p', 'My background spans product, marketing, go-to-market, pricing, growth, and company strategy. The range matters when a problem sits between functions or the team has several plausible explanations.', range);
+  text('.eyebrow', '02 / WHAT I WORK ON', range);
+  text('.copy h2', 'Product. Positioning. Pricing. Growth. They affect each other.', range);
+  text('.copy p', "I've led all four inside growing software companies. That matters when the obvious answer belongs to one function but the real problem sits somewhere else.", range);
   const rangeMeta = range.querySelectorAll('.retainer-meta > div');
   if (rangeMeta[0]) {
     text('b', 'COMMON QUESTIONS', rangeMeta[0]);
-    text('p', 'What should we build next? Why has growth stalled? Is the positioning wrong? Are we priced correctly? Where is the team stuck?', rangeMeta[0]);
+    text('p', 'What should we build next? Why has growth stalled? Is the positioning wrong? Are we priced correctly? Why are good people pulling in different directions?', rangeMeta[0]);
   }
   if (rangeMeta[1]) {
-    text('b', 'HOW I WORK', rangeMeta[1]);
-    text('p', 'I get up to speed quickly, say what I see, make a recommendation, and stay close enough to learn from the result.', rangeMeta[1]);
+    text('b', 'WHAT I BRING', rangeMeta[1]);
+    text('p', 'I get up to speed quickly, ask good questions, say what I think, make a recommendation, and stay close enough to see what happens.', rangeMeta[1]);
   }
 
   const proof = doc.querySelector('#track-record');
@@ -107,7 +107,7 @@
 
   const ownership = doc.querySelector('#why-me');
   text('.section-head .eyebrow', '04 / EXPERIENCE', ownership);
-  text('.section-head h2', 'I have been accountable across product, market, and revenue.', ownership);
+  text('.section-head h2', "I've been accountable for the decisions I advise on.", ownership);
   const ownershipRows = ownership.querySelectorAll('.ownership-item');
   const ownershipCopy = [
     {
@@ -133,11 +133,11 @@
   const about = doc.querySelector('#about');
   const aboutParagraphs = about.querySelectorAll('.about-copy p');
   if (aboutParagraphs[0]) aboutParagraphs[0].textContent = 'I spent the first half of my career as a recording artist and producer, and the second building and leading software companies. Both jobs taught me to listen closely, make decisions with incomplete information, and get a group of people moving in the same direction.';
-  if (aboutParagraphs[1]) aboutParagraphs[1].textContent = 'At Emma, Kindful, and Gun.io, I led product, marketing, and strategy from early stage through acquisition and scale. I also run Higher Roads, a Nashville creative technology studio. 2520 is where I work directly with founders and leadership teams on hard business problems spanning more than one function.';
+  if (aboutParagraphs[1]) aboutParagraphs[1].textContent = 'At Emma, Kindful, and Gun.io, I led product, marketing, and strategy from early stage through acquisition and scale. I also run Higher Roads, a Nashville creative technology studio. Through 2520, I work directly with founders and leadership teams when an important business problem crosses more than one function.';
 
   const contact = doc.querySelector('#contact');
-  text('h2', "Tell me what's going on.", contact);
-  text('p', "30 minutes. Give me the context, where you're stuck, and what you've tried. I'll tell you whether I think I'm useful.", contact);
+  text('h2', "Tell me what's stuck.", contact);
+  text('p', "30 minutes. Tell me what's happening, what you've tried, and where the team is getting hung up. I'll tell you how I'd approach it and whether I'm the right person to help.", contact);
 
   doc.querySelectorAll('script').forEach(node => node.remove());
   document.open();
