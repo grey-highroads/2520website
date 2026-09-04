@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2520 Consulting | Copy Prototype</title>
+<style>
+  html, body { margin: 0; min-height: 100%; background: #fff; }
+  body { opacity: 0; }
+</style>
+</head>
+<body>
+<script>
+(async function () {
+  const response = await fetch('/index.html', { cache: 'no-store' });
+  const html = await response.text();
+  const doc = new DOMParser().parseFromString(html, 'text/html');
+
+  doc.title = '2520 Consulting';
+
+  const text = (selector, value, root = doc) => {
+    const node = root.querySelector(selector);
+    if (node) node.textContent = value;
+  };
+
+  const htmlSet = (selector, value, root = doc) => {
+    const node = root.querySelector(selector);
+    if (node) node.innerHTML = value;
+  };
+
+  const nav = doc.querySelectorAll('.rail-nav a');
+  const navLabels = [
+    '01 / HOW I WORK',
+    '02 / RANGE',
+    '03 / TRACK RECORD',
+    '04 / EXPERIENCE',
+    '05 / GREY GARNER',
+    '06 / CONTACT'
+  ];
+  nav.forEach((item, i) => { if (navLabels[i]) item.textContent = navLabels[i]; });
+
+  htmlSet('.rail-contact', 'PRODUCT / POSITIONING / PRICING / GROWTH<br><a href="mailto:grey@2520consulting.com">grey@2520consulting.com</a>');
+
+  text('.hero-kicker', 'PRODUCT / POSITIONING / PRICING / GROWTH');
+  text('.hero h1', "When the business gets harder to read, I help you figure out what's going on and what to do next.");
+  text('.hero-side p', 'I work with founders and leadership teams on product, positioning, pricing, growth, and the decisions between them. I get up to speed quickly, find what matters, and turn the read into a practical path forward.');
+  text('.hero-side a', 'HOW I WORK ↓');
+
+  const offers = doc.querySelector('.offers');
+  text('.section-head .eyebrow', '01 / HOW I WORK', offers);
+  text('.section-head h2', 'Bring me the situation, not a pre-diagnosed project.', offers);
+  text('.section-head p', 'Most strategic problems cross functions. A product issue turns out to be positioning. A growth problem turns out to be pricing. I start by understanding the whole situation, then narrow the work to the decisions with the most impact.', offers);
+
+  const offerRows = offers.querySelectorAll('.offer');
+  const offerCopy = [
+    {
+      title: 'Assess the situation',
+      meta: 'START HERE',
+      copy: 'I talk with the people closest to the problem and review the product, numbers, customer signal, market context, and decisions already on the table. The goal is to get past symptoms and understand what is driving them.',
+      forLine: 'Useful when the team knows something is off but there is no agreement on the cause.',
+      outcome: 'A direct read on the situation, the key decisions in front of you, and what deserves attention first.'
+    },
+    {
+      title: 'Set the strategy',
+      meta: 'WHEN THE READ IS CLEAR',
+      copy: 'We turn the assessment into a practical path forward. Priorities, tradeoffs, sequencing, owners, and the decisions the team needs to make now. The work goes as deep as the situation requires.',
+      forLine: 'Product, positioning, pricing, growth, and operating questions become focused work here.',
+      outcome: 'A strategy the team understands, with clear priorities and a near-term plan for putting the plan into motion.'
+    },
+    {
+      title: 'Stay close to the work',
+      meta: 'ONGOING ADVISORY',
+      copy: 'After the initial work, I stay involved as the team executes. We look at what is changing, pressure-test new decisions, and adjust the plan as new information shows up.',
+      forLine: 'For founders who want experienced judgment in the room without adding another full-time executive.',
+      outcome: 'Ongoing access, working sessions, and an outside perspective from someone already familiar with the business.'
+    }
+  ];
+
+  offerRows.forEach((row, i) => {
+    const c = offerCopy[i];
+    if (!c) return;
+    text('.offer-title h3', c.title, row);
+    text('.offer-meta', c.meta, row);
+    text('.offer-copy', c.copy, row);
+    text('.offer-for', c.forLine, row);
+    htmlSet('.deliverable', '<span class="deliverable-label">OUTCOME</span>' + c.outcome, row);
+  });
+
+  text('.interrupt p', 'A roadmap problem might be a positioning problem. A growth problem might be a pricing problem. The diagnosis matters.');
+
+  const range = doc.querySelector('#advisory');
+  text('.eyebrow', '02 / RANGE', range);
+  text('.copy h2', 'The work rarely stays in one lane.', range);
+  text('.copy p', 'My background spans product, marketing, go-to-market, pricing, growth, and company strategy. The range matters when a problem sits between functions or the team has several plausible explanations.', range);
+  const rangeMeta = range.querySelectorAll('.retainer-meta > div');
+  if (rangeMeta[0]) {
+    text('b', 'COMMON QUESTIONS', rangeMeta[0]);
+    text('p', 'What should we build next? Why has growth stalled? Is the positioning wrong? Are we priced correctly? Where is the team stuck?', rangeMeta[0]);
+  }
+  if (rangeMeta[1]) {
+    text('b', 'HOW I WORK', rangeMeta[1]);
+    text('p', 'I get up to speed quickly, say what I see, make a recommendation, and stay close enough to learn from the result.', rangeMeta[1]);
+  }
+
+  const proof = doc.querySelector('#track-record');
+  text('.section-head h2', 'Results from the last 15 years.', proof);
+
+  const ownership = doc.querySelector('#why-me');
+  text('.section-head .eyebrow', '04 / EXPERIENCE', ownership);
+  text('.section-head h2', 'I have been accountable across product, market, and revenue.', ownership);
+  const ownershipRows = ownership.querySelectorAll('.ownership-item');
+  const ownershipCopy = [
+    {
+      title: "I've owned the product.",
+      body: "Owned the roadmap, prioritized the backlog, shipped releases, and explained tradeoffs to the board. I know the difference between a strategy problem and an execution problem because I've been accountable for both."
+    },
+    {
+      title: "I've owned the story.",
+      body: "Positioning, messaging, go-to-market, brand. I've done the work of making a company easier to understand and easier to buy, then watched the market tell us whether we were right."
+    },
+    {
+      title: "I've owned the revenue.",
+      body: "Customer acquisition, pricing, retention, expansion. I've run the numbers, changed the model, and lived with the result. Strategy feels different when revenue is attached."
+    }
+  ];
+  ownershipRows.forEach((row, i) => {
+    const c = ownershipCopy[i];
+    if (!c) return;
+    text('h3', c.title, row);
+    text('p', c.body, row);
+  });
+
+  const about = doc.querySelector('#about');
+  const aboutParagraphs = about.querySelectorAll('.about-copy p');
+  if (aboutParagraphs[0]) aboutParagraphs[0].textContent = 'I spent the first half of my career as a recording artist and producer, and the second building and leading software companies. Both jobs taught me to listen closely, make decisions with incomplete information, and get a group of people moving in the same direction.';
+  if (aboutParagraphs[1]) aboutParagraphs[1].textContent = 'At Emma, Kindful, and Gun.io, I led product, marketing, and strategy from early stage through acquisition and scale. I also run Higher Roads, a Nashville creative technology studio. 2520 is where I work directly with founders and leadership teams on hard business problems spanning more than one function.';
+
+  const contact = doc.querySelector('#contact');
+  text('h2', "Tell me what's going on.", contact);
+  text('p', "30 minutes. Give me the context, where you're stuck, and what you've tried. I'll tell you whether I think I'm useful.", contact);
+
+  doc.querySelectorAll('script').forEach(node => node.remove());
+  document.open();
+  document.write('<!DOCTYPE html>' + doc.documentElement.outerHTML);
+  document.close();
+})().catch(function (error) {
+  document.body.style.opacity = '1';
+  document.body.textContent = 'Unable to load the copy prototype.';
+  console.error(error);
+});
+</script>
+</body>
+</html>
