@@ -39,7 +39,7 @@
   ];
   nav.forEach((item, i) => { if (navLabels[i]) item.textContent = navLabels[i]; });
 
-  htmlSet('.rail-contact', 'PRODUCT / POSITIONING / PRICING / GROWTH<br><a href="mailto:grey@2520consulting.com">grey@2520consulting.com</a>');
+  htmlSet('.rail-contact', 'PRODUCT / POSITIONING / PRICING / GROWTH / AI<br><a href="mailto:grey@2520consulting.com">grey@2520consulting.com</a>');
 
   text('.hero-kicker', 'PRODUCT / POSITIONING / PRICING / GROWTH');
   text('.hero h1', "When something important isn't working, I help you figure out why and what to do next.");
@@ -90,12 +90,12 @@
 
   const range = doc.querySelector('#advisory');
   text('.eyebrow', '02 / WHAT I WORK ON', range);
-  text('.copy h2', 'Product. Positioning. Pricing. Growth. They affect each other.', range);
-  text('.copy p', "I've led all four inside growing software companies. That matters when the obvious answer belongs to one function but the real problem sits somewhere else.", range);
+  text('.copy h2', 'Product. Positioning. Pricing. Growth. AI. They affect each other.', range);
+  text('.copy p', "I've led product, marketing, go-to-market, pricing, and growth inside software companies, and I now spend much of my time building with AI. That mix matters when the obvious answer belongs to one function but the real problem sits somewhere else.", range);
   const rangeMeta = range.querySelectorAll('.retainer-meta > div');
   if (rangeMeta[0]) {
     text('b', 'COMMON QUESTIONS', rangeMeta[0]);
-    text('p', 'What should we build next? Why has growth stalled? Is the positioning wrong? Are we priced correctly? Why are good people pulling in different directions?', rangeMeta[0]);
+    text('p', 'What should we build next? Why has growth stalled? Is the positioning wrong? Are we priced correctly? Where should AI change the product or the way the team works? Why are good people pulling in different directions?', rangeMeta[0]);
   }
   if (rangeMeta[1]) {
     text('b', 'WHAT I BRING', rangeMeta[1]);
@@ -133,7 +133,7 @@
   const about = doc.querySelector('#about');
   const aboutParagraphs = about.querySelectorAll('.about-copy p');
   if (aboutParagraphs[0]) aboutParagraphs[0].textContent = 'I spent the first half of my career as a recording artist and producer, and the second building and leading software companies. Both jobs taught me to listen closely, make decisions with incomplete information, and get a group of people moving in the same direction.';
-  if (aboutParagraphs[1]) aboutParagraphs[1].textContent = 'At Emma, Kindful, and Gun.io, I led product, marketing, and strategy from early stage through acquisition and scale. I also run Higher Roads, a Nashville creative technology studio. Through 2520, I work directly with founders and leadership teams when an important business problem crosses more than one function.';
+  if (aboutParagraphs[1]) aboutParagraphs[1].textContent = 'At Emma, Kindful, and Gun.io, I led product, marketing, and strategy from early stage through acquisition and scale. Over the last year I have also spent substantial time designing and building AI systems for product, marketing, and creative work. I know where AI is useful because I work with it directly, including the parts that fail, need judgment, or look easier than they are. I also run Higher Roads, a Nashville creative technology studio. Through 2520, I work directly with founders and leadership teams when an important business problem crosses more than one function.';
 
   const contact = doc.querySelector('#contact');
   text('h2', "Tell me what's stuck.", contact);
