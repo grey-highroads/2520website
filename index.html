@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>2520 Consulting</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <style>
   html, body { margin: 0; min-height: 100%; background: #fff; }
   body { opacity: 0; }
@@ -17,6 +18,16 @@
   const doc = new DOMParser().parseFromString(html, 'text/html');
 
   doc.title = '2520 Consulting';
+
+  const favicon = doc.createElement('link');
+  favicon.rel = 'icon';
+  favicon.type = 'image/svg+xml';
+  favicon.href = '/favicon.svg';
+  doc.head.appendChild(favicon);
+
+  const logoStyle = doc.createElement('style');
+  logoStyle.textContent = '.rail-mark{font-size:0;line-height:0}.rail-mark img{display:block;width:100%;max-width:144px;height:auto}';
+  doc.head.appendChild(logoStyle);
 
   const text = (selector, value, root = doc) => {
     const node = root.querySelector(selector);
@@ -39,6 +50,7 @@
   ];
   nav.forEach((item, i) => { if (navLabels[i]) item.textContent = navLabels[i]; });
 
+  htmlSet('.rail-mark', '<img src="/assets/2520-logo.svg" alt="2520 Consulting">');
   htmlSet('.rail-contact', 'PRODUCT / POSITIONING / PRICING / GROWTH / AI<br><a href="mailto:grey@2520consulting.com">grey@2520consulting.com</a>');
 
   text('.hero-kicker', 'PRODUCT / POSITIONING / PRICING / GROWTH');
